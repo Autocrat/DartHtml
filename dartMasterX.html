@@ -1,0 +1,249 @@
+<html>
+<style>
+  body
+  {
+  background-color:black;
+  }
+  .box
+  {
+  position:relative;
+  text-align:center;
+  }
+
+  .remains
+  {
+  background-color:black;
+  position:relative;
+  }
+  .remains input
+  {
+  position:relative;
+  left:.2em;
+  top:.2em;
+  height:2em;
+  color:black;
+  background-color:#bccd95;
+  font-size:1.5em;
+  }
+
+  .scored
+  {
+  background-color:black;
+  position:relative;
+  }
+  .scored input
+  {
+  position:relative;
+  left:.2em;
+  top:.2em;
+  height:1em;
+  color:black;
+  background-color:#bccd95;
+  font-size:1.2em;
+  }
+
+  .entered
+  {
+  background-color:black;
+  position:relative;
+  }
+
+  .entered input
+  {
+  position:relative;
+  left:.2em;
+  top:.2em;
+  height:1em;
+  color:black;
+  background-color:#bccd95;
+  font-size:1.2em;
+  text-align:center;
+  }
+
+  .submit
+  {
+  position:relative;
+  top:1em;
+  }
+
+  #submitLeft
+  {
+  width:3em;
+  height:3em;
+  margin-right:10em;
+  background-color:red;
+  }
+  #submitRight
+  {
+  background-color:blue;
+  width:3em;
+  height:3em;
+  margin-left:10em;
+  }
+
+
+  .keys
+  {
+  position:relative;
+  top:1em;
+  }
+
+  .myButton
+  {
+  width:2em;
+  height:2em;
+  }
+</style>
+
+
+
+<body>
+
+<div class="box">
+  <div class="remains"> 
+    <input type="text" readonly size="18" id="remainsLeft" style="text-align:left">
+    <input type="text" readonly size="18" id="remainsRight" style="text-align:right">
+  </div>
+  <div class="scored"> 
+    <input type="text" readonly size="18" id="scoredLeft" style="text-align:left">
+    <input type="text" readonly size="18" id="scoredRight" style="text-align:right">
+  </div>
+
+  <div class="entered">
+    <input type="text" readonly size="18" id="enteredVal">    
+  </div>
+  
+  <div class="submit">
+    <input type="button" id="submitLeft" onclick="submitLeft()">
+    <input type="button" id="reset" onclick="reset()">
+    <input type="button" id="submitRight" onclick="submitRight()">
+  </div>
+
+  <div class="keys">
+    <p>
+      <input type="button" class="myButton" value="1" onclick="numClicked(value)">
+      <input type="button" class="myButton" value="2" onclick="numClicked(value)">
+      <input type="button" class="myButton" value="3" onclick="numClicked(value)">
+    <p>
+      <input type="button" class="myButton" value="4" onclick="numClicked(value)">
+      <input type="button" class="myButton" value="5" onclick="numClicked(value)">
+      <input type="button" class="myButton" value="6" onclick="numClicked(value)">
+    <p>
+      <input type="button" class="myButton" value="7" onclick="numClicked(value)">
+      <input type="button" class="myButton" value="8" onclick="numClicked(value)">
+      <input type="button" class="myButton" value="9" onclick="numClicked(value)">
+    <p>
+      <input type="button" class="myButton" value=" " onclick="resetLeft()" style="background-color:red">
+      <input type="button" class="myButton" value="0" onclick="numClicked(value)">
+      <input type="button" class="myButton" value=" " onclick="resetRight()" style="background-color:blue">
+
+  </div>
+</div>
+
+<script>
+  var stringEntered = "";
+
+  var gameValue = parseInt(getParameterByName('game'));
+  if(!gameValue)
+  {
+    gameValue=301;
+  }
+  document.getElementById("remainsLeft").value=gameValue;
+  document.getElementById("remainsRight").value=gameValue;
+  document.getElementById("scoredLeft").value="";
+  document.getElementById("scoredRight").value="";
+  document.getElementById("enteredVal").value="";
+
+  var leftStack=[];
+  var rightStack=[];
+
+
+  function numClicked(myValue)
+  {
+    newStringEntered =   stringEntered +  myValue;
+
+    var myVal = eval(newStringEntered);
+    if(myVal > 180)
+    {
+      stringEntered="";
+    }
+    else
+    {
+      stringEntered=newStringEntered;
+    }
+    document.getElementById("enteredVal").value = stringEntered;
+  }
+
+
+  function submitLeft()
+  {
+    var scoreLeft = eval(document.getElementById("remainsLeft").value);
+    scoreLeft -= eval(stringEntered);
+    if(scoreLeft >= 0)
+    {
+      document.getElementById("scoredLeft").value = stringEntered;
+      document.getElementById("remainsLeft").value = scoreLeft;
+      leftStack.push(stringEntered);
+    }
+    document.getElementById("enteredVal").value="";
+    stringEntered="";
+  }
+
+  function submitRight()
+  {
+    var scoreRight = eval(document.getElementById("remainsRight").value);
+    scoreRight -= eval(stringEntered);
+  
+    if(scoreRight >= 0)
+    {
+      document.getElementById("scoredRight").value = stringEntered;
+      document.getElementById("remainsRight").value = scoreRight;
+      rightStack.push(stringEntered);
+    }
+    document.getElementById("enteredVal").value="";
+    stringEntered="";
+  }
+
+  function reset()
+  {
+    document.getElementById("remainsLeft").value=gameValue;
+    document.getElementById("remainsRight").value=gameValue;
+    document.getElementById("scoredLeft").value="";
+    document.getElementById("scoredRight").value="";
+    document.getElementById("enteredVal").value="";
+    stringEntered="";
+    rightStack=[];
+    leftStack=[];
+  }
+
+  function resetRight()
+  {
+    document.getElementById("enteredVal").value="";
+    stringEntered="";
+  }
+
+  function resetLeft()
+  {
+    document.getElementById("enteredVal").value="";
+    stringEntered="";
+  }
+
+
+//Blatently stolen from stackoverflow
+function getParameterByName(name) {
+    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+        results = regex.exec(location.search);
+    return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+}
+
+
+  function foo()
+  {
+  alert("FOO!");
+  }
+
+</script>
+
+</body>
+</html>

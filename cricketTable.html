@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<style>
+
+#scoreL {
+    background-color:black;
+    color:white;
+    text-align:left;
+    font-size:500%;
+}
+
+#scoreR {
+    background-color:black;
+    color:white;
+    text-align:right;
+    font-size:500%;
+}
+
+#scoreBoard {
+    background-color:black;
+    color:white;
+    text-align:center;
+    font-size:300%;
+    width:100%;
+    height:100%;
+}
+
+
+</style>
+</head>
+
+<body style="background-color:black;height:100%;">
+
+<!-- SCORES *********************************** -->
+<table style="width:100%;height:100%;table-layout:fixed">
+<tr>
+  <td>
+   <div id="scoreL" >
+     0
+   </div>
+  </td>
+  <td>
+   <div id="scoreR" >
+     0
+   </div>
+  </td>
+</tr>
+</table>
+
+<!-- 20's *********************************** -->
+<table id="scoreBoard" border="1"  >
+
+<tr >
+ <td style="width:30%" >
+  <div id="l20" onclick="clickedScore(id)">
+  <br>
+  </div>
+ </td>
+
+ <td>
+  <div>
+   20
+  </div>
+ </td>
+ <td style="width:30%">
+  <div id="r20" onclick="clickedScore(id)">
+   <br>
+  </div>
+ </td>
+</tr>
+
+<tr >
+ <td style="width:30%" >
+  <div id="l19" onclick="clickedScore(id)">
+  <br>
+  </div>
+ </td>
+
+ <td>
+  <div>
+   19
+  </div>
+ </td>
+ <td style="width:30%">
+  <div id="r19" onclick="clickedScore(id)">
+   <br>
+  </div>
+ </td>
+</tr>
+
+<tr >
+ <td style="width:30%" >
+  <div id="l18" onclick="clickedScore(id)">
+  <br>
+  </div>
+ </td>
+
+ <td>
+  <div>
+   18
+  </div>
+ </td>
+ <td style="width:30%">
+  <div id="r18" onclick="clickedScore(id)">
+   <br>
+  </div>
+ </td>
+</tr>
+
+<tr >
+ <td style="width:30%" >
+  <div id="l17" onclick="clickedScore(id)">
+  <br>
+  </div>
+ </td>
+
+ <td>
+  <div>
+   17
+  </div>
+ </td>
+ <td style="width:30%">
+  <div id="r17" onclick="clickedScore(id)">
+   <br>
+  </div>
+ </td>
+</tr>
+
+<tr >
+ <td style="width:30%" >
+  <div id="l16" onclick="clickedScore(id)">
+  <br>
+  </div>
+ </td>
+
+ <td>
+  <div>
+   16
+  </div>
+ </td>
+ <td style="width:30%">
+  <div id="r16" onclick="clickedScore(id)">
+   <br>
+  </div>
+ </td>
+</tr>
+
+<tr >
+ <td style="width:30%" >
+  <div id="l15" onclick="clickedScore(id)">
+  <br>
+  </div>
+ </td>
+
+ <td>
+  <div>
+   15
+  </div>
+ </td>
+ <td style="width:30%">
+  <div id="r15" onclick="clickedScore(id)">
+   <br>
+  </div>
+ </td>
+</tr>
+
+<tr >
+ <td style="width:30%" >
+  <div id="lBu" onclick="clickedScore(id)">
+  <br>
+  </div>
+ </td>
+
+ <td>
+  <div>
+   Bull
+  </div>
+ </td>
+ <td style="width:30%">
+  <div id="rBu" onclick="clickedScore(id)">
+   <br>
+  </div>
+ </td>
+</tr>
+
+
+</table>
+
+
+
+
+
+<script>
+var scoreR=document.getElementById("scoreR");
+var scoreL=document.getElementById("scoreL");
+scoreR.setAttribute("score",0);
+scoreR.score=0;
+scoreL.setAttribute("score",0);
+scoreL.score=0;
+
+
+function clickedScore(elementName){
+  var clickBox=document.getElementById(elementName);
+  if(clickBox.hasAttribute("count"))
+  {
+    clickBox.count+=1;
+  }
+  else
+  {
+    clickBox.setAttribute("count",0);
+    clickBox.count=1;
+  }
+  
+  count=clickBox.count;
+  var svgline='<svg width="100" height="40" viewbox="0 0 100 100">';
+  if(count < 4)
+  {
+    if(count > 0)
+    {
+      svgline+='<line x1="0" y1="0" x2="99" y2="99" stroke="green" stroke-width="4"/>';
+    }
+    if(count  > 1)
+    {
+      svgline+='<line x1="0" y1="99" x2="99" y2="0" stroke="green" stroke-width="4"/>';
+    }
+    if (count > 2)
+    {
+      svgline+='<circle cx="50" cy="50" r="40" stroke="green" stroke-width="4" fill="yellow" />';
+    }
+
+    svgline+='</svg>';
+    clickBox.innerHTML=svgline;
+  }  
+  else
+  {
+    var otherElement;
+    var otherElementName;
+    var scoreElementName="score";
+
+    if(elementName.charAt(0)=='r')
+    {
+      scoreElementName+="R";
+      otherElementName=elementName.replace("r","l");
+    }
+    else
+    {
+      scoreElementName+="L";
+      otherElementName=elementName.replace("l","r");
+    }
+
+    otherElement=document.getElementById(otherElementName);
+    var scoreElement = document.getElementById(scoreElementName);
+    var score = scoreElement.score;
+
+    if(! otherElement.hasAttribute("count"))
+    {
+      otherElement.setAttribute("count",0);
+      otherElement.count=0;
+    }
+
+    if(otherElement.count < 3)
+    {
+      if(elementName.charAt(1) == "B")
+      {
+        score+=25;
+      }
+      else
+      {
+        var myScore = parseInt(elementName.substr(1,2));
+        score += myScore;
+      }
+    }
+
+    
+    scoreElement.innerHTML = score;
+    scoreElement.score = score;
+    
+  }
+   
+}
+
+
+</script>
+
+
+</body>
+</html>
