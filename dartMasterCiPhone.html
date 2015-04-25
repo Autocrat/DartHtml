@@ -1,0 +1,392 @@
+<html>
+ <meta http-equiv="Content-Type" content="text/html;charset=ISO-8859-1"> 
+
+<style>
+  body
+  {
+      background-color:black;
+  }
+  .box
+  {
+      position:relative;
+      text-align:center;
+      width:100%;
+      height:75%;
+  }
+
+  .remains
+  {
+      background-color:black;
+      position:relative;
+  }
+  .remains input
+  {
+      position:relative;
+      color:black;
+      background-color:#bccd95;
+      height:15%;
+      width:46%;
+      font-size:300%;
+
+  }
+
+  .scored
+  {
+      background-color:black;
+      position:relative;
+  }
+  
+  .scored input
+  {
+      position:relative;
+      color:black;
+      background-color:#bccd95;
+      top:4px;
+      width:46%;
+  }
+
+  .entered
+  {
+      background-color:black;
+      position:relative;
+      top:1%;
+  }
+
+  .entered input
+  {
+      position:relative;
+      color:black;
+      background-color:#bccd95;
+      text-align:center;
+      width:30%;
+      height:10%;
+      font-size:300%;
+  }
+
+  .submit
+  {
+      top:1.5%;
+      position:relative;
+  }
+
+  #submitLeft
+  {
+      width:20%;
+      height:15%;
+      margin-right:13%;
+      background-color:red;
+  }
+
+  #submitRight
+  {
+      width:20%;
+      height:15%;
+      background-color:blue;
+      margin-left:13%; 
+  }
+
+
+  .keys
+  {
+      position:relative;
+      top:2%;
+  }
+
+  .myButton
+  {
+      width:20%;
+      height:10%;
+      margin-right:.5%;
+      margin-left:.5%;
+      font-size:200%;
+      text-align:center;
+  }
+
+  .myRadioButton
+  {
+      width:8%;
+      height:8%;
+  }
+</style>
+
+
+
+<body>
+
+<div class="box">
+  <div class="remains"> 
+    <input type="text" readonly size="18" id="remainsLeft" style="text-align:left">
+    <input type="text" readonly size="18" id="remainsRight" style="text-align:right">
+  </div>
+
+  <div class="entered">
+    <input type="text" readonly size="18" id="enteredVal">    
+  </div>
+  
+  <div class="submit">
+    <input type="button" id="submitLeft" onclick='submitScore("remainsLeft",0)'>
+    <input type="button" id="reset" onclick="reset()" class="myButton">
+    <input type="button" id="submitRight" onclick='submitScore("remainsRight",1)'>
+  </div>
+
+  <div class="submit">
+<!-- Use the "checked" attribute to indicate whether or not the box is checked.
+     Absence of the attribute means unchecked -->
+    <input type="radio" id="l20.1" onclick="return false" class="myRadioButton">
+    <input type="radio" id="l20.2" onclick="return false" class="myRadioButton">
+    <input type="radio" id="l20.3" onclick="return false" class="myRadioButton">
+    <input type="button" name="20" value=20 onclick="addScoreStack(value)"  class="myButton">
+    <input type="radio" id="r20.1" onclick="return false" class="myRadioButton">
+    <input type="radio" id="r20.2" onclick="return false" class="myRadioButton">
+    <input type="radio" id="r20.3" onclick="return false" class="myRadioButton">
+    <br>
+    <input type="radio" id="l19.1" onclick="return false" class="myRadioButton">
+    <input type="radio" id="l19.2" onclick="return false" class="myRadioButton">
+    <input type="radio" id="l19.3" onclick="return false" class="myRadioButton">
+    <input type="button" name="19" value=19 onclick="addScoreStack(value)"  class="myButton">
+    <input type="radio" id="r19.1" onclick="return false" class="myRadioButton">
+    <input type="radio" id="r19.2" onclick="return false" class="myRadioButton">
+    <input type="radio" id="r19.3" onclick="return false" class="myRadioButton">
+    <br>
+    <input type="radio" id="l18.1" onclick="return false" class="myRadioButton">
+    <input type="radio" id="l18.2" onclick="return false" class="myRadioButton">
+    <input type="radio" id="l18.3" onclick="return false" class="myRadioButton">
+    <input type="button" name="18" value=18 onclick="addScoreStack(value)"  class="myButton">
+    <input type="radio" id="r18.1" onclick="return false" class="myRadioButton">
+    <input type="radio" id="r18.2" onclick="return false" class="myRadioButton">
+    <input type="radio" id="r18.3" onclick="return false" class="myRadioButton">
+    <br>
+    <input type="radio" id="l17.1" onclick="return false" class="myRadioButton">
+    <input type="radio" id="l17.2" onclick="return false" class="myRadioButton">
+    <input type="radio" id="l17.3" onclick="return false" class="myRadioButton">
+    <input type="button" name="17" value=17 onclick="addScoreStack(value)"  class="myButton">
+    <input type="radio" id="r17.1" onclick="return false" class="myRadioButton">
+    <input type="radio" id="r17.2" onclick="return false" class="myRadioButton">
+    <input type="radio" id="r17.3" onclick="return false" class="myRadioButton">
+    <br>
+    <input type="radio" id="l16.1" onclick="return false" class="myRadioButton">
+    <input type="radio" id="l16.2" onclick="return false" class="myRadioButton">
+    <input type="radio" id="l16.3" onclick="return false" class="myRadioButton">
+    <input type="button" name="16" value=16 onclick="addScoreStack(value)"  class="myButton">
+    <input type="radio" id="r16.1" onclick="return false" class="myRadioButton">
+    <input type="radio" id="r16.2" onclick="return false" class="myRadioButton">
+    <input type="radio" id="r16.3" onclick="return false" class="myRadioButton">
+    <br>
+    <input type="radio" id="l15.1" onclick="return false" class="myRadioButton">
+    <input type="radio" id="l15.2" onclick="return false" class="myRadioButton">
+    <input type="radio" id="l15.3" onclick="return false" class="myRadioButton">
+    <input type="button" name="15" value=15 onclick="addScoreStack(value)"  class="myButton">
+    <input type="radio" id="r15.1" onclick="return false" class="myRadioButton">
+    <input type="radio" id="r15.2" onclick="return false" class="myRadioButton">
+    <input type="radio" id="r15.3" onclick="return false" class="myRadioButton">
+    <br>
+    <input type="radio" id="l25.1" onclick="return false" class="myRadioButton">
+    <input type="radio" id="l25.2" onclick="return false" class="myRadioButton">
+    <input type="radio" id="l25.3" onclick="return false" class="myRadioButton">
+    <input type="button" name="B" value="B" onclick="addScoreStack(value)"  class="myButton">
+    <input type="radio" id="r25.1" onclick="return false" class="myRadioButton">
+    <input type="radio" id="r25.2" onclick="return false" class="myRadioButton">
+    <input type="radio" id="r25.3" onclick="return false" class="myRadioButton">
+    <br>
+    <br>
+    <input type="button" name="Cancel" value="Cancel" onclick="clearScoreStack()" class="myButton">
+  </div>
+</div>
+
+<script>
+
+// ******************************** Initialization
+// Globel variables, state, parameter handling
+document.getElementById("remainsLeft").value="0";
+document.getElementById("remainsRight").value="0";
+document.getElementById("enteredVal").value="";
+
+
+//setup a stack for each player to undo throws
+var scoreStack = [];
+var scoreStates = [];
+var displayCount = 0;
+
+//global variables must be setup before initializeLights
+initializeLights();
+
+//Handle scoring submission
+function submitScore(remainsElementName, side)
+{
+    //side 0 = left, 1 = right
+    var prefix = "l";
+    if(side==1)
+    {
+	prefix="r";
+    }
+
+    
+    var stackValue = scoreStack.pop();
+    while(stackValue)
+    {
+	if(stackValue == "B")
+	{
+	    stackValue = 25;
+	}
+	//Don't bother if everyone has this value closed
+	if(scoreStates[stackValue].right != 1 || scoreStates[stackValue].left != 1)
+	{
+	    //Do checks for submitted on right side
+	    if(side == 1) 
+	    {
+		if(scoreStates[stackValue].right == 1 && scoreStates[stackValue].left != 1)
+		{
+		    //Right side can score on this value
+		    var temp = parseInt(document.getElementById(remainsElementName).value);
+		    temp+=parseInt(stackValue);
+		    document.getElementById(remainsElementName).value=temp;
+		}
+		else
+		{
+		    //Close some lights
+		    lightEmUp(prefix,stackValue);
+		}
+	    }
+	    else
+	    {
+		if(scoreStates[stackValue].left == 1 && scoreStates[stackValue].right != 1)
+		{
+		    //Left side can score on this value
+		    var temp = parseInt(document.getElementById(remainsElementName).value);
+		    temp+=parseInt(stackValue);
+		    document.getElementById(remainsElementName).value=temp;
+		}
+		else
+		{
+		    //Close some lights
+		    lightEmUp(prefix,stackValue);
+		}
+	    }
+	    
+	}
+	stackValue=scoreStack.pop();
+    }
+    displayCount=0;
+    document.getElementById("enteredVal").value="";
+}
+
+
+function lightEmUp(prefix, stackValue)
+{
+    var bulletIndex=0;
+    for(bulletIndex=1; bulletIndex < 4; ++bulletIndex)
+    {
+	var bulletElement=prefix+stackValue+"."+bulletIndex;
+	var checked = document.getElementById(bulletElement).checked;
+	if(!checked)
+	{
+	    document.getElementById(bulletElement).checked="checked";
+	    if(bulletIndex == 3)
+	    {
+		if(prefix == "r")
+		{
+		    scoreStates[stackValue].right = 1;
+		}
+		else
+		{
+		    scoreStates[stackValue].left = 1;
+		}
+	    }
+	    break;
+	}
+    }
+}
+
+//Put the selected score into the stack for later submission
+function addScoreStack(value)
+{
+    
+    if(scoreStack.length > 0 )
+    {
+	//since I can't apparently just look at the last thing in the stack
+	//pop it and put it back after comparison
+	if(value == scoreStack[scoreStack.length -1])
+	{
+	    displayCount = displayCount + 1;
+	}
+	else
+	{
+	    displayCount = 1;
+	}
+    }
+    else
+    {
+	displayCount = 1;
+    }
+    scoreStack.push(value);
+    document.getElementById("enteredVal").value=displayCount;
+}
+
+//handle the overall reset button
+function reset()
+{
+    document.getElementById("remainsLeft").value="0";
+    document.getElementById("remainsRight").value="0";
+    document.getElementById("enteredVal").value="";
+    scoreStack = [];
+    initializeLights();
+}
+
+//Blatently stolen from stackoverflow
+function getParameterByName(name) {
+    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+    results = regex.exec(location.search);
+    return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+}
+
+function clearScoreStack()
+{
+    scoreStack = [];
+    document.getElementById("enteredVal").value="";
+}
+
+function foo()
+{
+    alert("FOO!");
+}
+
+
+//Clear all the radio buttons
+//in JS, checked="checked" makes them marked, but checked="" unmarks them.
+function initializeLights()
+{
+    var index1=0;
+    var index2=0;
+    for(index1=15; index1 < 21; ++index1)
+    {
+	for(index2=1; index2 < 4; ++index2)
+	{
+	    var selectionString = "r"+index1+"."+index2;
+	    document.getElementById(selectionString).checked="";
+	    selectionString = "l"+index1+"."+index2;
+	    document.getElementById(selectionString).checked="";
+	}
+    }
+    for(index2=1; index2 < 4; ++index2)
+    {
+	var selectionString = "r25."+index2;
+	document.getElementById(selectionString).checked="";
+	selectionString = "l25."+index2;
+	document.getElementById(selectionString).checked="";
+    }
+
+    var loopCount = 0;
+    for(loopCount = 15; loopCount < 21; ++loopCount)
+    {
+	var tempClosedState = { left:0, right:0};
+	scoreStates[loopCount] = tempClosedState;
+    }
+    var closedBullState = { left: 0, right: 0 };
+    scoreStates[25]=closedBullState;
+}
+
+</script>
+
+</body>
+</html>
