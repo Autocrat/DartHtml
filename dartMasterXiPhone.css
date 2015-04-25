@@ -1,0 +1,93 @@
+  body
+  {
+      background-color:black;
+  }
+  .box
+  {
+      position:relative;
+      text-align:center;
+      height:75%;
+  }
+  
+  .remains
+  {
+      background-color:black;
+      position:relative;
+  }
+  .remains input
+  {
+      position:relative;
+      color:black;
+      background-color:#bccd95;
+      height:15%;
+      width:46%;
+      font-size:200%;
+  }
+
+  .scored
+  {
+      background-color:black;
+      position:relative;
+  }
+  .scored input
+  {
+      position:relative;
+      color:black;
+      background-color:#bccd95;
+      top:4px;
+      width:46%;
+  }
+
+  .entered
+  {
+      background-color:black;
+      position:relative;
+      top:1%;
+  }
+
+  .entered input
+  {
+      position:relative;
+      color:black;
+      background-color:#bccd95;
+      text-align:center;
+      width:30%;
+  }
+
+  .submit
+  {
+      top:1.5%;
+      position:relative;
+  }
+
+  #submitLeft
+  {
+      width:30%;
+      height:15%;
+      margin-right:13%;
+      background-color:red;
+  }
+
+  #submitRight
+  {
+      width:30%;
+      height:15%;
+      background-color:blue;
+      margin-left:13%; 
+  }
+
+
+  .keys
+  {
+      position:relative;
+      top:2%;
+  }
+
+  .myButton
+  {
+      width:30%;
+      height:15%;
+      margin-right:.5%;
+      margin-left:.5%;
+  }
+
