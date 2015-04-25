@@ -18,7 +18,6 @@
   .remains input
   {
   position:relative;
-  left:.2em;
   top:.2em;
   height:2em;
   color:black;
@@ -34,9 +33,8 @@
   .scored input
   {
   position:relative;
-  left:.2em;
   top:.2em;
-  height:1em;
+  height:1.5em;
   color:black;
   background-color:#bccd95;
   font-size:1.2em;
@@ -51,9 +49,8 @@
   .entered input
   {
   position:relative;
-  left:.2em;
   top:.2em;
-  height:1em;
+  height:1.5em;
   color:black;
   background-color:#bccd95;
   font-size:1.2em;
@@ -90,8 +87,8 @@
 
   .myButton
   {
-  width:2em;
-  height:2em;
+  width:4em;
+  height:4em;
   }
 </style>
 
@@ -114,9 +111,9 @@
   </div>
   
   <div class="submit">
-    <input type="button" id="submitLeft" onclick="submitLeft()">
+    <input type="button" id="submitLeft" onclick='submitScore("remainsLeft","scoredLeft",0)'>
     <input type="button" id="reset" onclick="reset()">
-    <input type="button" id="submitRight" onclick="submitRight()">
+    <input type="button" id="submitRight" onclick='submitScore("remainsRight","scoredRight",1)'>
   </div>
 
   <div class="keys">
@@ -133,115 +130,141 @@
       <input type="button" class="myButton" value="8" onclick="numClicked(value)">
       <input type="button" class="myButton" value="9" onclick="numClicked(value)">
     <p>
-      <input type="button" class="myButton" value=" " onclick="resetLeft()" style="background-color:red">
+      <input type="button" class="myButton" value=" " onclick='resetSide("remainsLeft","scoredLeft",0)' style="background-color:red">
       <input type="button" class="myButton" value="0" onclick="numClicked(value)">
-      <input type="button" class="myButton" value=" " onclick="resetRight()" style="background-color:blue">
+      <input type="button" class="myButton" value=" " onclick='resetSide("remainsRight","scoredRight",1)' style="background-color:blue">
 
   </div>
 </div>
 
 <script>
-  var stringEntered = "";
 
-  var gameValue = parseInt(getParameterByName('game'));
-  if(!gameValue)
-  {
-    gameValue=301;
-  }
-  document.getElementById("remainsLeft").value=gameValue;
-  document.getElementById("remainsRight").value=gameValue;
-  document.getElementById("scoredLeft").value="";
-  document.getElementById("scoredRight").value="";
-  document.getElementById("enteredVal").value="";
+// ******************************** Initialization
+// Globel variables, state, parameter handling
+var stringEntered = "";
+//gameState: 0 = no game
+//           1 = game selected
+var gameState=0;
+var gameValue = parseInt(getParameterByName('game'));
+if(!gameValue)
+{
+    gameValue="";
+}
+else
+{
+    gameState=1;
+}
+document.getElementById("remainsLeft").value=gameValue;
+document.getElementById("remainsRight").value=gameValue;
+document.getElementById("scoredLeft").value="";
+document.getElementById("scoredRight").value="";
+document.getElementById("enteredVal").value="";
 
-  var leftStack=[];
-  var rightStack=[];
+//setup a stack for each player to undo throws
+var leftStack = [];
+var rightStack = [];
+var stacks = [leftStack,rightStack];
 
+//handle button clicks for numbers
+function numClicked(myValue)
+{
+    newStringEntered =   stringEntered +  myValue;    
+    stringEntered=newStringEntered;
+    document.getElementById("enteredVal").value = stringEntered;
+}
 
-  function numClicked(myValue)
-  {
-    newStringEntered =   stringEntered +  myValue;
-
-    var myVal = eval(newStringEntered);
-    if(myVal > 180)
+//Handle scoring and possibly game setup
+//This may not be the most efficient way, but it works
+function submitScore(remainsElementName, scoredElementName, stackIndex)
+{
+    var scoreValue = eval(document.getElementById(remainsElementName).value);
+    var stringVal = eval(stringEntered);
+    if(gameState == 1)
     {
-      stringEntered="";
+	if(stringVal < 181)
+	{
+    	    scoreValue -= eval(stringEntered);
+	    
+    	    if(scoreValue > 0)
+    	    {
+		document.getElementById(scoredElementName).value = stringEntered;
+		document.getElementById(remainsElementName).value = scoreValue;
+		stacks[stackIndex].push(stringEntered);
+    	    }
+	    else if (scoreValue == 0 )
+	    {
+		document.getElementById(remainsElementName).value = "WINNER!";
+	    }
+	}
+    	document.getElementById("enteredVal").value="";
+    	stringEntered="";
     }
     else
     {
-      stringEntered=newStringEntered;
+    	if(stringVal && stringVal > 0)
+    	{
+    	    gameValue=stringVal;
+    	    document.getElementById("remainsLeft").value=gameValue;
+    	    document.getElementById("remainsRight").value=gameValue;
+    	    document.getElementById("enteredVal").value="";
+    	    stringEntered="";
+    	    gameState=1;
+    	}
     }
-    document.getElementById("enteredVal").value = stringEntered;
-  }
+}
 
 
-  function submitLeft()
-  {
-    var scoreLeft = eval(document.getElementById("remainsLeft").value);
-    scoreLeft -= eval(stringEntered);
-    if(scoreLeft >= 0)
-    {
-      document.getElementById("scoredLeft").value = stringEntered;
-      document.getElementById("remainsLeft").value = scoreLeft;
-      leftStack.push(stringEntered);
-    }
-    document.getElementById("enteredVal").value="";
-    stringEntered="";
-  }
 
-  function submitRight()
-  {
-    var scoreRight = eval(document.getElementById("remainsRight").value);
-    scoreRight -= eval(stringEntered);
-  
-    if(scoreRight >= 0)
-    {
-      document.getElementById("scoredRight").value = stringEntered;
-      document.getElementById("remainsRight").value = scoreRight;
-      rightStack.push(stringEntered);
-    }
-    document.getElementById("enteredVal").value="";
-    stringEntered="";
-  }
-
-  function reset()
-  {
-    document.getElementById("remainsLeft").value=gameValue;
-    document.getElementById("remainsRight").value=gameValue;
+//handle the overall reset button
+function reset()
+{
+    document.getElementById("remainsLeft").value="";
+    document.getElementById("remainsRight").value="";
     document.getElementById("scoredLeft").value="";
     document.getElementById("scoredRight").value="";
     document.getElementById("enteredVal").value="";
+    gameState=0;
     stringEntered="";
-    rightStack=[];
-    leftStack=[];
-  }
+    stacks[0]=[];
+    stacks[1]=[];
+}
 
-  function resetRight()
-  {
-    document.getElementById("enteredVal").value="";
-    stringEntered="";
-  }
-
-  function resetLeft()
-  {
-    document.getElementById("enteredVal").value="";
-    stringEntered="";
-  }
-
+//reset the current entry or undo the last entry on that side
+function resetSide(remainsElementName, scoredElementName, side)
+{
+    if(stringEntered == "")
+    {
+	var tempString = stacks[side].pop();
+	if(tempString)
+	{
+	    stringEntered=tempString;
+	    document.getElementById("enteredVal").value=stringEntered;
+	    document.getElementById(scoredElementName).value = "";
+	    var element = document.getElementById(remainsElementName);
+	    var remainingVal = eval(element.value) + eval(tempString);
+	    element.value = remainingVal;
+	}
+    }
+    else
+    {
+	document.getElementById("enteredVal").value="";
+	stringEntered="";
+    }
+}
 
 //Blatently stolen from stackoverflow
 function getParameterByName(name) {
     name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
     var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
-        results = regex.exec(location.search);
+    results = regex.exec(location.search);
     return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 }
 
 
-  function foo()
-  {
-  alert("FOO!");
-  }
+function foo()
+{
+    alert("FOO!");
+}
 
 </script>
 
